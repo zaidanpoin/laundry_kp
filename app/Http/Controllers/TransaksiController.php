@@ -33,9 +33,11 @@ class TransaksiController extends Controller
         $Member = Member::all();
         $paket = Paket::all();
 
+        $outlet = Outlet::all();
+
         $total = $haraga->sum('subtotal');
 
-        return view('transaksi.datatransaksi',['data'=>$data,'detail'=>$detail],compact('total','Member','dt','paket'));
+        return view('transaksi.datatransaksi',['data'=>$data,'detail'=>$detail],compact('total','outlet','Member','dt','paket'));
     }
 
     /**

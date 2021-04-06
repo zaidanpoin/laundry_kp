@@ -66,7 +66,9 @@ Route::group(['middleware'=>['auth:user','cekLevel:admin']],function(){
 
 
 
-
+    // laporan hasil outlet
+    Route::get('/laporanoutlet/{id}','OutletController@form')->name('laporan-outlet');
+    Route::get('/cetak-laporantgl/{tglawal}/{tglakhir}/{id}','OutletController@cetak')->name('laporan-outlet');
 
 
 

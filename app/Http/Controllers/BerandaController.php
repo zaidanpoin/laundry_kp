@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Member ;
+use App\Outlet ;
 class BerandaController extends Controller
 {
     public function index(){
@@ -17,8 +18,10 @@ class BerandaController extends Controller
 
          $data = Member::all()->count();
 
+         $outlet = Outlet::all();
 
-         return view('halamandepan.halaman',compact('member','data'));
+
+         return view('halamandepan.halaman',compact('member','outlet','data'));
         ;
 
 

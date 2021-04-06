@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Outlet;
+use App\Transaksi;
+use PDF;
 
 class OutletController extends Controller
 {
@@ -15,7 +17,9 @@ class OutletController extends Controller
     public function index()
     {
         $data = Outlet::all();
-        return view('outlet.dataoutlet',compact('data'));
+        $outlet = Outlet::all();
+
+        return view('outlet.dataoutlet',compact('data','outlet'));
     }
 
     /**
@@ -25,6 +29,7 @@ class OutletController extends Controller
      */
     public function create()
     {
+        $outlet = Outlet::all();
         return view('outlet.tambahoutlet');
     }
 
@@ -145,5 +150,23 @@ class OutletController extends Controller
         }
 
 
+    }
+
+
+    public function form($id){
+        $outlet= Outlet::all();
+        $dataoutlet = Outlet::find($id);
+        return view('laporan.laporan',compact('outlet','dataoutlet'));
+    }
+
+
+    public function cetak($tglawal,$tglakhir,$id){
+
+        $transaksi = Transaksi::where('outlet_id',$id)->whereBetween('tgl',[$tglawal,$tglakhir])->get();
+
+        $pdf = PDF::loadview('laporan.laporantanggal',['transaksi'=>$transaksi]);
+        $name = "laporan";
+        $outlet = Outlet::find($id);
+        return $pdf->stream($name."-".$outlet->nama.".pdf");;
     }
 }

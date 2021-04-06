@@ -96,6 +96,9 @@
                                 </a>
                             </li>
 
+
+
+
                             @elseif (auth()->user()->level == 'member')
                             <li class="nav-item">
                                 <a data-toggle="collapse" href="#base">
@@ -121,7 +124,26 @@
                         </ul>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <a data-toggle="collapse" href="#maps">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <p>Outlet</p>
+                        <span class="caret"></span>
+                    </a>
+                    <div class="collapse" id="maps">
+                        @forelse ($outlet as $data )
 
+
+                        <ul class="nav nav-collapse">
+                            <li>
+                                <a href="/laporanoutlet/{{ $data->id }}">
+                                    <span class="sub-item">{{ $data->nama }}</span>
+                                </a>
+                            </li>
+                        </ul>
+                        @endforeach
+                    </div>
+                </li>
 
                 </li>
                 <li class="mx-4 mt-2">
