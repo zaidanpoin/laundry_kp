@@ -23,6 +23,12 @@ class Outlet extends Model
     }
 
 
+    public function Paket()
+    {
+        return $this->hasOne('App\Paket');
+    }
+
+
 
 
 }

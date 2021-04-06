@@ -17,4 +17,10 @@ class Paket extends Model
         return $this->hasMany(Detailtransaksi::class);
     }
 
+
+    public function Outlet()
+    {
+        return $this->belongsTo('App\Outlet');
+    }
+
 }

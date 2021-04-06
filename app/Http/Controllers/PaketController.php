@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\paket;
+use App\Paket;
+
+use App\Outlet;
 class PaketController extends Controller
 {
     /**
@@ -15,7 +17,10 @@ class PaketController extends Controller
     {
         $paket = Paket::all();
 
-        return view('paket.datapaket',compact('paket'));
+
+        $outlet = Outlet::all();
+
+        return view('paket.datapaket',compact('paket','outlet'));
     }
 
     /**
@@ -36,7 +41,25 @@ class PaketController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+
+      $paket = new Paket;
+
+      $paket->outlet_id = $request->outlet_id;
+        $paket->jenis = $request->jenis;
+        $paket->harga = $request->harga;
+        $paket->nama_paket = $request->nama_paket;
+        $finish = $paket->save();
+
+        if($finish){
+            return redirect('datapaket')->with('success', 'Data Berhasil ditambahkan');
+        }else{
+            return redirect('datapaket')->with('errors', 'data gagal!');
+        }
+
+
+
+
     }
 
     /**
@@ -70,7 +93,16 @@ class PaketController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        if($request->isMethod('post')){
+            $data = $request->all();
+
+
+
+
+         Paket::where(['id'=>$id])->update(['outlet_id'=>$data['outlet_id'],'jenis'=>$data['jenis'],'harga'=>$data['harga'],'nama_paket'=>$data['nama_paket']]);
+
+            return redirect()->back();
+        }
     }
 
     /**
@@ -81,6 +113,15 @@ class PaketController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $paket = Paket::find($id);
+
+        $berhasil = $paket->delete();
+
+        if($berhasil){
+            return redirect('datapaket')->with('toast_error', 'Data Berhasil dihapus!');
+        }else{
+            return redirect('datapaket')->with('error', 'data gagal dihapus!');
+        }
+
     }
 }

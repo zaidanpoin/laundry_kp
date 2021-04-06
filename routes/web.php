@@ -58,7 +58,12 @@ Route::group(['middleware'=>['auth:user','cekLevel:admin']],function(){
 
 
     // paket
-    Route::get('/paket','@PaketController@index')->name('datapaket');
+    Route::get('/paket','PaketController@index')->name('data-paket');
+    Route::post('/paket/store','PaketController@store')->name('store-paket');
+    Route::match(['get', 'post'], '/update-paket/{id}','PaketController@update')->name('update-paket');
+    Route::get('/paket-delete/{id}','PaketController@destroy')->name('hapus-paket');
+
+
 
 
 

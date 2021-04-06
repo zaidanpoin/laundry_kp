@@ -84,7 +84,7 @@
                             </li>
 
                             <li>
-                                <a href="{{ route('datapaket') }}">
+                                <a href="{{ route('data-paket') }}">
                                     <span class="sub-item">Data Paket</span>
                                 </a>
                             </li>
