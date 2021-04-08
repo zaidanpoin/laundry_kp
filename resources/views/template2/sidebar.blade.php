@@ -131,17 +131,17 @@
                         <span class="caret"></span>
                     </a>
                     <div class="collapse" id="maps">
-                        @forelse ($outlet as $data )
-
 
                         <ul class="nav nav-collapse">
+                            @forelse ($outlet as $data )
                             <li>
                                 <a href="/laporanoutlet/{{ $data->id }}">
                                     <span class="sub-item">{{ $data->nama }}</span>
                                 </a>
                             </li>
+                            @endforeach
                         </ul>
-                        @endforeach
+
                     </div>
                 </li>
 
