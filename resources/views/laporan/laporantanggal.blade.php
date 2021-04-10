@@ -11,16 +11,15 @@
     <title>Hello, world!</title>
   </head>
   <body>
+  <center>Mamah Laundry</center>
     <table class="table">
         <thead>
             <tr>
                 <th>Nomor</th>
                 <th>Kode invoice</th>
                 <th>member</th>
-                <th>Status Pesanan</th>
-                <th>Aksi Status</th>
-
-                <th>detail</th>
+            
+              <th>Total</th>
 
             </tr>
         </thead>
@@ -34,8 +33,10 @@
             <td style="text-transform: uppercase">{{ $data->kode_invoice }}</td>
             <td>{{ $data->Member->name }}</td>
             <td>{{ $data->status }}</td>
+            <td>Rp.{{number_format($data->total)}}</td>
           </tr>
 @endforeach
+
         </tbody>
       </table>
 

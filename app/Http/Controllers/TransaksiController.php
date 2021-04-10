@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
-
 use Illuminate\Http\Request;
 use App\Transaksi;
 use App\Outlet;
@@ -136,6 +134,7 @@ class TransaksiController extends Controller
         $jumlah = $detail->qty = $request->qty;
         $detail->keterangan = $request->keterangan;
         $detail->subtotal = $cari_harga->harga * $request->qty;
+        
         $detail->save();
 
 
@@ -201,6 +200,7 @@ class TransaksiController extends Controller
             $jumlah = $detail->qty = $request->qty;
             $detail->keterangan = $request->keterangan;
             $detail->subtotal = $cari_harga->harga * $request->qty;
+          
             $detail->save();
             return redirect()->back();
 

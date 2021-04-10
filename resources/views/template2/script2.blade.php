@@ -17,10 +17,10 @@
     Circles.create({
         id:'circles-2',
         radius:45,
-        value:70,
+        value:{{$transaksi}},
         maxValue:100,
         width:7,
-        text: 36,
+        text: {{$transaksi}},
         colors:['#f1f1f1', '#2BB930'],
         duration:400,
         wrpClass:'circles-wrp',
