@@ -134,7 +134,7 @@ class TransaksiController extends Controller
         $jumlah = $detail->qty = $request->qty;
         $detail->keterangan = $request->keterangan;
         $detail->subtotal = $cari_harga->harga * $request->qty;
-        
+
         $detail->save();
 
 
@@ -171,14 +171,29 @@ class TransaksiController extends Controller
 
     public function detail($id)
     {
+
         $data = transaksi::find($id);
         $haraga = Detailtransaksi::where('transaksi_id',$id);
         $paket = paket::all();
         $Member = Member::all();
-        $total = $haraga->sum('subtotal');
+
+        if($haraga->sum('subtotal') > 20000)
+        $diskon =  $haraga->sum('subtotal')*0.1;
+
+        else if($haraga->sum('subtotal') > 50000){
+            $diskon =  $haraga->sum('subtotal')*0.3;
+        }
+
+
+
+
+        $cari_disc = $haraga->sum('subtotal');
+
+        $total =  $haraga->sum('subtotal')-$diskon;
+
         $outlet = Outlet::all();
 
-        return view('transaksi.detailtransaksi',compact('data','total','Member','outlet','paket'));
+        return view('transaksi.detailtransaksi',compact('data','total','Member','cari_disc','outlet','paket'));
 
     }
 
@@ -200,7 +215,7 @@ class TransaksiController extends Controller
             $jumlah = $detail->qty = $request->qty;
             $detail->keterangan = $request->keterangan;
             $detail->subtotal = $cari_harga->harga * $request->qty;
-          
+
             $detail->save();
             return redirect()->back();
 
@@ -348,6 +363,29 @@ class TransaksiController extends Controller
     }
 
 
+    public function bayar($id)
+    {
+
+
+        $data = Transaksi::find($id);
+
+
+
+        $data->status_bayar ='Sudah Bayar';
+
+
+        $data->update();
+
+
+
+
+
+        return redirect()->back();
+
+    }
+
+
+
     public function destroy($id)
     {
         $data = Transaksi::find($id);
@@ -367,4 +405,5 @@ class TransaksiController extends Controller
 
 
     }
+
 }

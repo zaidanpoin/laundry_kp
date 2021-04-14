@@ -46,7 +46,7 @@ Route::group(['middleware'=>['auth:user','cekLevel:admin']],function(){
 
     Route::get('/beranda', 'BerandaController@index' );
 
-
+    Route::get('/bayar/{id}','TransaksiController@bayar')->name('bayar');
 
     // outlet
     Route::get('/outlet','OutletController@index')->name('dataoutlet');

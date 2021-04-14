@@ -57,6 +57,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
+
                             <form action="{{ route('store-detail',$data->id) }}" method="POST" >
 
 
@@ -322,7 +323,7 @@
                                             <div class="card-title" style="text-transform: uppercase">Data Pesanan : </div>
                                         </div>
                                         <div class="table-responsive">
-                                            <table id="" class="display table table-striped table-hover" >
+                                            <table id="add-row" class="display table table-striped table-hover" >
                                                 <thead>
                                                     <tr>
                                                         <th>Nomor</th>
@@ -370,9 +371,29 @@
                                             </table>
 
                                         </div>
+
+                                        <h4>Diskon% =
+
+                                            @if($cari_disc > 20000)
+                                            10%
+                                            @elseif ($cari_disc > 50000)
+                                            30%
+
+
+                                            @endif
+
+
+                                        </h4>
+                                        <h1>SUBTOTAL:Rp.{{number_format($total)  }}</h1>
+                                        @if($data->status_bayar == 'Sudah Bayar')
+                                        <a href="/cetak-transaksi/{{ $data->id }}" class="btn btn-primary">Cetak</a>
+                                        @else
+                                        <a href="/bayar/{{$data->id }}" class="btn btn-primary">bayar</a>
+                                        @endif
                                         <footer>
 
-                                            <h1>SUBTOTAL:Rp.{{number_format($total)  }}</h1>
+
+
                                         </footer>
 
                                     </div>
@@ -463,16 +484,7 @@
             </div>
         </div>
     </div>
-    <footer class="footer">
-        <div class="container-fluid">
-            <nav class="pull-left">
 
-            </nav>
-            <div class="copyright ml-auto">
-                2020, made with <i class="fa fa-heart heart text-danger"></i> by Zaidaan</a>
-            </div>
-        </div>
-    </footer>
 </div>
 <!-- Custom template | don't include it in your project! -->
 

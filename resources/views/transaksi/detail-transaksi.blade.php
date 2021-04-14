@@ -373,6 +373,7 @@
                                         <footer>
 
                                             <h1>SUBTOTAL:Rp.{{number_format($total)  }}</h1>
+
                                         </footer>
 
                                     </div>
