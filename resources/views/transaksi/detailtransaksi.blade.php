@@ -354,7 +354,7 @@
                                                             @else
                                                         <td>
                                                             <a class="text-light btn btn-warning" data-toggle="modal" data-target="#Modal2-{{ $p->id }}" href="">Edit</a>
-                                                            <a class="text-light" href="{{ route('hapus-transaksi',$p->id) }}"><button class="btn btn-danger"><i class="fa fa-trash-alt" data-toggle="tooltip" title="Edit" ></i></button></a>
+                                                            <a class="text-light" href="{{ route('hapus-detail',$p->id) }}"><button class="btn btn-danger"><i class="fa fa-trash-alt" data-toggle="tooltip" title="Edit" ></i></button></a>
                                                         </td>
                                                         @endif
 
@@ -369,26 +369,33 @@
                                                 <hr>
 
                                             </table>
-
+                                            <br>
                                         </div>
 
                                         <h4>Diskon% =
 
-                                            @if($cari_disc > 20000)
+                                            @if($cari_disc == 3)
                                             10%
-                                            @elseif ($cari_disc > 50000)
+                                            @elseif($cari_disc == 5)
                                             30%
 
+                                            @elseif($cari_disc == 10)
+                                            40%
+                                            @else
 
                                             @endif
-
 
                                         </h4>
                                         <h1>SUBTOTAL:Rp.{{number_format($total)  }}</h1>
                                         @if($data->status_bayar == 'Sudah Bayar')
                                         <a href="/cetak-transaksi/{{ $data->id }}" class="btn btn-primary">Cetak</a>
+                                        @elseif ($detail_count < 1)
+
+                                        <button data-toggle="modal" data-target="#Modal1" class="btn btn-primary">Tambah Data</button>
                                         @else
-                                        <a href="/bayar/{{$data->id }}" class="btn btn-primary">bayar</a>
+                                        <button data-toggle="modal" data-target="#Modal1" class="btn btn-primary">Tambah Data</button>
+                                        <br>
+                                        <a href="/bayar/{{$data->id }}" class="btn btn-success">bayar</a>
                                         @endif
                                         <footer>
 

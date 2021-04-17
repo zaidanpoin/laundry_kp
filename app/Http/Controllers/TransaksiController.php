@@ -73,28 +73,6 @@ class TransaksiController extends Controller
 
         // $cek_pesanan = Transaksi::where('member_id', auth()->user()->id)->where('status','baru')->first();
 
-        $cek_jumlah = $request->qty;
-
-        $haha = $messages = [
-            'required' => ':attribute wajib diisi !!!',
-            'min' => ':attribute harus diisi minimal :min karakter ya cuy!!!',
-            'max' => ':attribute harus diisi maksimal :max karakter ya cuy!!!',
-        ];
-        $this->validate($request,[
-
-            'nama_paket' =>'required',
-            'qty'=>'required',
-            'member'=>'required'
-
-
-        ],$messages);
-
-        if($cek_jumlah == null){
-
-
-            return  redirect('transaksi')->with('warning','abam');
-
-        }else{
 
 
 
@@ -114,34 +92,34 @@ class TransaksiController extends Controller
         $transaksi->diskon = null;
 
         $transaksi->status = 'baru';
-        $transaksi->status_bayar = $request->status_bayar;
+        $transaksi->status_bayar = null;
         $transaksi->users_id = auth()->user()->id;
         $transaksi->user = auth()->user()->name;
         $transaksi->save();
 
-        $paket = Member::find($request->member);
-        $paket->status = "pesan";
-        $paket->update();
+        $update_member = Member::find($request->member);
+        $update_member->status = "pesan";
+        $update_member->update();
 
-        // $invoice  = Transaksi::where('users_id', auth()->user()->id)->where('status','baru')->first();
-        $invoice  = Transaksi::where('member_id', $request->member)->where('status','baru')->first();
+        // // $invoice  = Transaksi::where('users_id', auth()->user()->id)->where('status','baru')->first();
+        // $invoice  = Transaksi::where('member_id', $request->member)->where('status','baru')->first();
 
-        $cari_harga = Paket::find($request->nama_paket);
+        // $cari_harga = Paket::find($request->nama_paket);
 
-        $detail = new Detailtransaksi;
-        $detail->paket_id = $request->nama_paket;
-        $detail->transaksi_id = $invoice->id;
-        $jumlah = $detail->qty = $request->qty;
-        $detail->keterangan = $request->keterangan;
-        $detail->subtotal = $cari_harga->harga * $request->qty;
+        // $detail = new Detailtransaksi;
+        // $detail->paket_id = $request->nama_paket;
+        // $detail->transaksi_id = $invoice->id;
+        // $jumlah = $detail->qty = $request->qty;
+        // $detail->keterangan = $request->keterangan;
+        // $detail->subtotal = $cari_harga->harga * $request->qty;
 
-        $detail->save();
+        // $detail->save();
+
+        $cek_id  = Transaksi::where('member_id', $request->member)->where('status','baru')->first();
 
 
+        return Redirect('/detail-transaksi'.'/'.$cek_id->id);
 
-
-        return Redirect('transaksi');
-    }
 
 
     }
@@ -176,24 +154,32 @@ class TransaksiController extends Controller
         $haraga = Detailtransaksi::where('transaksi_id',$id);
         $paket = paket::all();
         $Member = Member::all();
-
-        if($haraga->sum('subtotal') > 20000)
+        $member = Member::find($data->member_id);
+        $cari_disc = Transaksi::where('member_id',$member->id)->count();
+        if($cari_disc == 3)
         $diskon =  $haraga->sum('subtotal')*0.1;
 
-        else if($haraga->sum('subtotal') > 50000){
+        else if($cari_disc == 5){
             $diskon =  $haraga->sum('subtotal')*0.3;
+
+        }else if($cari_disc == 10){
+            $diskon =  $haraga->sum('subtotal')*0.4;
+
+        }else{
+            $diskon = 0;
         }
 
+        $detail_count = DetailTransaksi::where('transaksi_id',$id)->count();
 
 
 
-        $cari_disc = $haraga->sum('subtotal');
+
 
         $total =  $haraga->sum('subtotal')-$diskon;
 
         $outlet = Outlet::all();
 
-        return view('transaksi.detailtransaksi',compact('data','total','Member','cari_disc','outlet','paket'));
+        return view('transaksi.detailtransaksi',compact('data','total','Member','detail_count','cari_disc','outlet','paket'));
 
     }
 
@@ -367,12 +353,39 @@ class TransaksiController extends Controller
     {
 
 
+        $detail = DetailTransaksi::where('transaksi_id',$id);
+
+        $subtotal = $detail->sum('subtotal');
+
         $data = Transaksi::find($id);
 
-
+        $member = Member::find($data->member_id);
+        $cari_disc = Transaksi::where('member_id',$member->id)->count();
 
         $data->status_bayar ='Sudah Bayar';
 
+
+        if($cari_disc == 3){
+
+        $data->diskon  = 0.1;
+        $pajak = $data->pajak = 2500;
+        $diskon =  $detail->sum('subtotal')*0.1;
+        $data->total = $subtotal-$diskon-$pajak;
+
+        }else if($cari_disc == 5){
+            $pajak = $data->pajak = 8000;
+            $data->diskon  = 0.3;
+            $diskon =  $detail->sum('subtotal')*0.3;
+            $data->total = $subtotal-$diskon-$pajak;
+
+        }else if($cari_disc == 10){
+            $data->diskon  = 0.4;
+            $diskon =  $detail->sum('subtotal')*0.4;
+            $data->total = $subtotal-$diskon-$pajak;
+
+        }else{
+            $data->total = $subtotal;
+        }
 
         $data->update();
 
@@ -382,6 +395,15 @@ class TransaksiController extends Controller
 
         return redirect()->back();
 
+    }
+
+
+    public function hapusdetail($id){
+
+        $detail = DetailTransaksi::find($id);
+        $detail->delete();
+
+        return redirect()->back();
     }
 
 

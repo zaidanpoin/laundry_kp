@@ -45,7 +45,6 @@ Route::get('/template', function () {
 Route::group(['middleware'=>['auth:user','cekLevel:admin']],function(){
 
     Route::get('/beranda', 'BerandaController@index' );
-
     Route::get('/bayar/{id}','TransaksiController@bayar')->name('bayar');
 
     // outlet
@@ -84,6 +83,10 @@ Route::group(['middleware'=>['auth:user','cekLevel:admin']],function(){
     Route::get('/detail-transaksi/{id}','TransaksiController@detail')->name('detail-transaksi');
     Route::get('/cetak-transaksi/{id}','TransaksiController@cetak')->name('cetak-invoice');
     Route::post('/store-detail/{id}','TransaksiController@storedetail')->name('store-detail');
+    Route::get('/hapus-detail/{id}','TransaksiController@hapusdetail')->name('hapus-detail');
+
+
+
     Route::match(['get', 'post'], '/update-detail/{id}','TransaksiController@updatedetail')->name('update-detail');
 
 

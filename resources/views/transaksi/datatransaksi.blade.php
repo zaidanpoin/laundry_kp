@@ -61,44 +61,6 @@
 
 
 
-                                        <label for="exampleInputPassword1">Paket</label>
-                                        <select class="form-control" id="nama_paket"name="nama_paket">
-                                            :@foreach ($paket as $p)
-                                            <option value="{{ $p->id }}">{{ $p->nama_paket}}</option>
-                                            @endforeach
-                                        </select>
-
-                                        @if($errors->has('nama_paket'))
-                                        <div class="text-danger">
-                                                {{ $errors->first('nama_paket')}}
-                                        </div>
-                                        @endif
-
-                                        <br>
-
-
-                                            <label for="exampleInputPassword1">Jumlah</label>
-                                            <input type="number" name="qty"  class="form-control" placeholder="jumlah" autocomplete="off">
-                                            @if($errors->has('qty'))
-                                                                <div class="text-danger">
-                                                                        {{ $errors->first('qty')}}
-                                                                </div>
-                                                        @endif
-
-                                                                <br>
-
-                                                            <label for="exampleInputPassword1">Keterangan</label>
-                                                            <input type="input" class="form-control"  name="keterangan" placeholder="Keterangan">
-
-                                                            @if($errors->has('keterangan'))
-                                                            <div class="text-danger">
-                                                                    {{ $errors->first('keterangan')}}
-                                                            </div>
-                                                            @endif
-
-
-
-                                                        <br>
 
                                                             <label for="exampleInputPassword1">Member</label>
                                                             <select class="form-control" id="member" name="member">
@@ -119,19 +81,6 @@
                                                             </div>
                                                             @endif
 
-                                                    <label for="exampleInputPassword1">Status Bayar</label>
-                                                <select class="form-control" id="status bayar" name="status bayar">
-
-                                                                <option value="Belum dibayar">Belum dibayar</option>
-                                                                <option value="Sudah Bayar">Sudah Bayar</option>
-
-                                                            </select>
-
-                                                            @if($errors->has('status_bayar'))
-                                                            <div class="text-danger">
-                                                                    {{ $errors->first('status_bayar')}}
-                                                            </div>
-                                                            @endif
 
 
                         </div>
@@ -166,7 +115,9 @@
 
                                         @endphp
                                             @foreach($data as $p)
+                                            @if($p->status == 'diambil')
 
+                                            @else
                                             <td>{{$nomor++ }}  </td>
 
                                             <td style="text-transform: uppercase">{{ $p->kode_invoice }}</td>
@@ -189,6 +140,8 @@
                                             @elseif($p->status == 'diambil')
 
                                             <td>  <a class="text-light" href="{{ route('cetak-invoice',$p->id) }}"><button class="btn btn-primary"><i class="fa fa-file" data-toggle="tooltip" title="Edit" > Cetak invoice</button></a></td>
+
+
 
                                             @endif
 
@@ -220,6 +173,8 @@
 
 
                                             </tr>
+
+                                            @endif
                                         @endforeach
 
 
