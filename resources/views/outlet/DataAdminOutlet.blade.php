@@ -47,21 +47,21 @@
                                 <div class="modal-dialog" role="document">
                                     <div class="modal-content">
                                     <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Tambah Outlet</h5>
+                                        <h5 class="modal-title" id="exampleModalLabel">Tambah Akun Outlet</h5>
                                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="{{ route('store-outlet') }}" method="POST" >
+                                        <form action="{{ route('store-akun',$id_admin) }}" method="POST" >
 
                                             {{ csrf_field() }}
 
 
 
-                                                    <label for="exampleInputPassword1">Nama Outlet</label>
-                                                    <input type="input" class="form-control" id="exampleInputPassword1" name="nama" placeholder="Nama outlet">
-
+                                                    <label for="exampleInputPassword1">Nama</label>
+                                                    <input type="input" class="form-control" id="exampleInputPassword1" value="{{ old('nama') }}" name="name" placeholder="Nama ">
+                                                    <br>
                                                     @if($errors->has('nama'))
                                                     <div class="text-danger">
                                                             {{ $errors->first('nama')}}
@@ -69,28 +69,35 @@
                                                     @endif
 
 
-
-
-
-                                                    <label for="exampleInputPassword1">alamat</label>
-                                                    <input type="input" class="form-control" id="exampleInputPassword1" name="alamat" placeholder="Alamat outlet">
-
-                                                    @if($errors->has('alamat'))
+                                                    <label for="exampleInputPassword1">Email</label>
+                                                    <input type="email" class="form-control" id="exampleInputPassword1" value="{{ old('email') }}" name="email" placeholder="Email ">
+                                                    <br>
+                                                    @if($errors->has('email'))
                                                     <div class="text-danger">
-                                                            {{ $errors->first('alamat')}}
+                                                            {{ $errors->first('email')}}
                                                     </div>
                                                     @endif
 
 
 
+                                                    <label for="exampleInputPassword1">Level</label>
+                                                    <select type="input" class="form-control" id="exampleInputPassword1" name="level" placeholder="Level">
 
-                                                    <label for="exampleInputPassword1">Nomor</label>
-                                                    <input type="number" name="nomor" class="form-control" placeholder="nomor" autocomplete="off">
-                                                    @if($errors->has('nomor'))
-                                                                        <div class="text-danger">
-                                                                                {{ $errors->first('nomor')}}
-                                                                        </div>
-                                                                @endif
+                                                        <option value="Owner">Owner</option>
+
+                                                        <option value="Kasir">Kasir</option>
+                                                    </select>
+
+                                                    <br>
+
+                                                    <label for="exampleInputPassword1">Passowrd</label>
+                                                    <input type="input" class="form-control" id="exampleInputPassword1" value="{{ old('password') }}" name="password" placeholder="Password ">
+                                                    <br>
+                                                    @if($errors->has('password'))
+                                                    <div class="text-danger">
+                                                            {{ $errors->first('password')}}
+                                                    </div>
+                                                    @endif
 
 
 
@@ -109,11 +116,14 @@
                                 <table id="add-row" class="display table table-striped table-hover" >
                                     <thead>
                                         <tr>
-                                            <th>Nama Outlet</th>
-                                            <th>Alamat Outlet</th>
-                                            <th>Nomor Tlp</th>
-                                            <th>Manage</th>
-                                            <th>Action</th>
+                                            <th>No</th>
+                                            <th>Nama</th>
+                                            <th>Email</th>
+                                            <th>Level</th>
+
+
+                                            <th>Aksi</th>
+
                                         </tr>
                                     </thead>
 
@@ -122,14 +132,18 @@
 
 
                                         @endphp
-                                            @foreach($data as $p)
+                                            @foreach($Outlet as $p)
                                             <tr>
 
+                                                    <td>{{ $nomor++ }}</td>
+                                                    <td>{{ $p->name }}</td>
+                                                    <td>{{ $p->email }}</td>
+                                                    <td>{{ $p->level }}</td>
 
-                                            <td>{{ $p->nama }}</td>
-                                            <td>{{ $p->alamat }}</td>
-                                            <td>0{{ $p->tlp }}</td>
-                                            <td> <a class="text-light" href="{{ route('admin-outlet',$p->id) }}"><button class="btn btn-success">Manage Akun</button></a></td>
+
+
+
+
                                             <td>
                                                 <a class="text-light" href="{{ route('edit-outlet',$p->id) }}"><button class="btn btn-warning"><i class="fa fa-pencil-alt" data-toggle="tooltip" title="Edit" ></i></button></a>
                                                 <a class="text-light" href="{{ route('hapus-outlet',$p->id) }}"><button class="btn btn-danger"><i class="fa fa-trash-alt" data-toggle="tooltip" title="Hapus" ></i></button></a>

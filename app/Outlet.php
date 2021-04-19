@@ -19,7 +19,7 @@ class Outlet extends Model
 
     public function Member()
     {
-        return $this->hasOne('App\Member');
+        return $this->hasMany('App\Member');
     }
 
 
@@ -27,6 +27,9 @@ class Outlet extends Model
     {
         return $this->hasOne('App\Paket');
     }
+
+
+
 
 
 

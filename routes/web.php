@@ -32,6 +32,9 @@ Route::get('/data', function () {
 });
 
 
+
+
+
 Route::post('/postlogin', 'LoginController@postlogin')->name('postlogin');
 Route::get('/logout', 'LoginController@logout')->name('logout');
 
@@ -42,7 +45,7 @@ Route::get('/template', function () {
 
 
 
-Route::group(['middleware'=>['auth:user','cekLevel:admin']],function(){
+Route::group(['middleware'=>['auth:user','cekLevel:admin,Owner,kasir']],function(){
 
     Route::get('/beranda', 'BerandaController@index' );
     Route::get('/bayar/{id}','TransaksiController@bayar')->name('bayar');
@@ -54,6 +57,8 @@ Route::group(['middleware'=>['auth:user','cekLevel:admin']],function(){
     Route::post('/update/outlet/{id}','OutletController@update')->name('update-outlet');
     Route::get('/editoutlet/{id}','OutletController@edit')->name('edit-outlet');
     Route::get('/hapusoutlet/{id}','OutletController@destroy')->name('hapus-outlet');
+    Route::get('/data-admin/{id}','OutletController@admin')->name('admin-outlet');
+    Route::post('/store-admin/{id}','OutletController@adminstore')->name('store-akun');
 
 
     // paket
@@ -62,7 +67,8 @@ Route::group(['middleware'=>['auth:user','cekLevel:admin']],function(){
     Route::match(['get', 'post'], '/update-paket/{id}','PaketController@update')->name('update-paket');
     Route::get('/paket-delete/{id}','PaketController@destroy')->name('hapus-paket');
 
-
+    //  Member
+    Route::get('/member','MemberController@index');
 
 
     // laporan hasil outlet
@@ -93,7 +99,10 @@ Route::group(['middleware'=>['auth:user','cekLevel:admin']],function(){
     // paket
     Route::get('/paket','PaketController@index')->name('data-paket');
 
+    // Route
 
+    Route::get('/member','MemberController@index')->name('data-member');
+    Route::post('/store-member','MemberController@store')->name('store-member');
 
 
 
@@ -107,13 +116,7 @@ Route::group(['middleware'=>['auth:user','cekLevel:admin']],function(){
 });
 
 
-Route::group(['middleware'=>['auth:member,user','cekLevel:admin,member']],function(){
-    Route::get('/beranda', 'BerandaController@index' );
 
-
-    Route::get('/cek-transaksi','TransaksiController@cekpesan')->name('cek-pesanan');
-
-});
 
 
 

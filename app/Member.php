@@ -12,22 +12,14 @@ class Member extends Authenticatable
    protected $table = 'member';
 
 
-    use Notifiable;
+
 
 
     protected $fillable = [
-        'name','alamat','tgl','jk','nomor_telp', 'email','status', 'password',
+        'name','alamat','tgl','jk','nomor_telp', 'email','status','id_outlet',
     ];
 
 
-    protected $hidden = [
-        'password', 'remember_token',
-    ];
-
-
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
 
 
 
@@ -41,6 +33,6 @@ class Member extends Authenticatable
 
     public function Outlet()
     {
-        return $this->belongTo('App\Outlet');
+        return $this->belongsTo('App\Outlet');
     }
 }

@@ -9,6 +9,8 @@ use App\Member;
 use Carbon\Carbon;
 use App\Detailtransaksi;
 use App\paket;
+use App\Mail\NotifSelesai;
+use App\Mail\NotifProses;
 use Illuminate\Support\Str;
 use PDF;
 
@@ -175,8 +177,8 @@ class TransaksiController extends Controller
 
 
 
-        $total =  $haraga->sum('subtotal')-$diskon;
-
+        $total1 =  $haraga->sum('subtotal')-$diskon;
+        $total = $total1-2500;
         $outlet = Outlet::all();
 
         return view('transaksi.detailtransaksi',compact('data','total','Member','detail_count','cari_disc','outlet','paket'));
@@ -247,7 +249,9 @@ class TransaksiController extends Controller
         $data->tgl_proses = Carbon::now();
         $success = $data->update();
 
+        $member = Member::find($data->member_id);
 
+        \Mail::to($member->email)->send(new NotifProses);
         if($success){
             return redirect('transaksi')->with('success', 'Data Status Telah Diubah!');
         }else{
@@ -264,6 +268,10 @@ class TransaksiController extends Controller
         $data->status = "selesai";
         $data->tgl_selesai = Carbon::now();
         $success = $data->update();
+
+        $member = Member::find($data->member_id);
+
+      \Mail::to($member->email)->send(new NotifSelesai);
 
 
         if($success){
@@ -384,7 +392,8 @@ class TransaksiController extends Controller
             $data->total = $subtotal-$diskon-$pajak;
 
         }else{
-            $data->total = $subtotal;
+              $pajak = $data->pajak = 2500;
+            $data->total = $subtotal - $pajak;
         }
 
         $data->update();

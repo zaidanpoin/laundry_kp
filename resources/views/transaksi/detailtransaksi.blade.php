@@ -170,7 +170,14 @@
 
                                                 <li class="feed-item feed-item-danger">
                                                     <time class="date" datetime="9-18">{{ $data->tgl }}</time>
-                                                    <span class="text">Pembayaran Anda <a href="#">"Telah Dikonfirmasi"</a></span>
+                                                    <span class="text">Pembayaran Anda <a href="#">"
+                                                        @if($data->status_bayar == 'Sudah Bayar')
+                                                            Telah Dikonfirmasi
+                                                        @else
+                                                           Belum Dikonfirmasi"
+                                                        @endif
+
+</a></span>
                                                 </li>
 
                                                 <li class="feed-item feed-item-info">
@@ -386,7 +393,21 @@
                                             @endif
 
                                         </h4>
-                                        <h1>SUBTOTAL:Rp.{{number_format($total)  }}</h1>
+                                    @if ($total >0)
+
+                                        <h4>Pajak     = 2.500</h4>
+                                        @else
+                                            <h4>Pajak     = 0   </h4>
+                                        @endif
+
+
+                                        @if ($total >0)
+                                         <h1>SUBTOTAL:Rp.{{number_format($total)  }}</h1>
+
+                                         @else
+                                               <h1>SUBTOTAL:Rp.0</h1>
+                                        @endif
+
                                         @if($data->status_bayar == 'Sudah Bayar')
                                         <a href="/cetak-transaksi/{{ $data->id }}" class="btn btn-primary">Cetak</a>
                                         @elseif ($detail_count < 1)

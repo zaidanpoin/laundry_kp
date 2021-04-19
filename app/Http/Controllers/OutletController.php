@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Outlet;
 use App\Transaksi;
+use App\Member;
+use App\User;
 use PDF;
 
 class OutletController extends Controller
@@ -78,6 +80,33 @@ class OutletController extends Controller
     public function show($id)
     {
         //
+    }
+
+
+    public function admin($id)
+    {
+
+        $id_admin = $id;
+        $Outlet = User::where('id_outlet',$id)->get();
+        $outlet = Outlet::all();
+        return view('outlet.DataAdminOutlet',compact('Outlet','id_admin','outlet'));
+    }
+
+
+
+    public function adminstore(Request $request, $id)
+    {
+
+        $user = new User;
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password);
+        $user->id_outlet = $id;
+        $user->level = $request->level;
+        $user->remember_token = \Str::random(60);
+        $user->save();
+        return redirect('/data-admin');
     }
 
     /**

@@ -47,10 +47,7 @@ return [
             'hash' => false,
         ],
 
-        'member'=>[
-            'driver'=>'session',
-            'provider' =>'member'
-        ],
+
 
         'user'=>[
             'driver'=>'session',
@@ -87,10 +84,6 @@ return [
             'model' => App\User::class,
         ],
 
-        'member' => [
-            'driver' => 'eloquent',
-            'model' => App\Member::class,
-        ],
 
 
 

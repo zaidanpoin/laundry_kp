@@ -21,12 +21,15 @@ class BerandaController extends Controller
          $data = Member::all()->count();
          $transaksi = Transaksi::all()->count();
 
-         $crt = 
+         $crt =
 
-         $daily = Transaksi::where('outlet_id',auth()->user()->id_outlet);   
+         $daily = Transaksi::where('outlet_id',auth()->user()->id_outlet);
             $hitungdaily = $daily->sum('total');
          $outlet = Outlet::all();
-  
+
+
+         $laporan = Outlet::find(auth()->user()->id_outlet);
+
         $nama_outlet = Outlet::find(auth()->user()->id_outlet);
 
          return view('halamandepan.halaman',compact('member','nama_outlet','outlet','hitungdaily','transaksi','data'));

@@ -53,20 +53,21 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="{{ route('store-paket') }}" method="POST" >
+                                        <form action="/paket/store" method="POST" >
 
                                             {{ csrf_field() }}
 
 
 
-                                                <label for="exampleInputPassword1">Outlet</label>
-                                                <select class="form-control" id=""name="outlet_id">
-                                                    :@foreach ($outlet as $p)
-                                                    <option value="{{ $p->id }}">{{ $p->nama}}</option>
-                                                    @endforeach
-                                                </select>
 
-                                                <br>
+                                            <label for="exampleInputPassword1">Jenis Paket</label>
+                                            <input type="input" class="form-control" id="exampleInputPassword1" name="jenis" placeholder="Jenis Paket">
+
+                                            @if($errors->has('jenis'))
+                                            <div class="text-danger">
+                                                    {{ $errors->first('jenis')}}
+                                            </div>
+                                            @endif
 
 
                                                     <label for="exampleInputPassword1">Jenis Paket</label>

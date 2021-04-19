@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Paket;
-
+use Carbon\Carbon;
+use App\Member;
 use App\Outlet;
-class PaketController extends Controller
+
+class MemberController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +16,10 @@ class PaketController extends Controller
      */
     public function index()
     {
-        $paket = Paket::all();
-
-
+        $Member = Member::where('id_outlet',23)->get();
         $outlet = Outlet::all();
 
-        return view('paket.datapaket',compact('paket','outlet'));
+        return view('Member.datamember',compact('Member','outlet'));
     }
 
     /**
@@ -33,30 +32,36 @@ class PaketController extends Controller
         //
     }
 
-
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
+        $validator = \Validator::make($request->all(), [
+            'name' => 'required|min:3',
+            'email' => 'required|min:3'
+        ]);
 
-
-      $paket = new Paket;
-
-      $paket->outlet_id = $request->outlet_id;
-        $paket->jenis = $request->jenis;
-        $paket->harga = $request->harga;
-        $paket->nama_paket = $request->nama_paket;
-        $paket->tlp = $request->telp;
-
-        $finish = $paket->save();
-
-        if($finish){
-            return redirect('/paket')->with('success', 'Data Berhasil ditambahkan');
-        }else{
-            return redirect('/paket')->with('errors', 'data gagal!');
+        if ($validator->fails()) {
+            return back()->with('warning', $validator->messages()->all()[0])->withInput();
         }
+        $member = new Member;
+        $member->name = $request->name;
+        $member->email = $request->email;
+        $member->alamat = $request->alamat;
+        $member->jk = $request->jk;
+        $member->tgl = Carbon::now();
+        $member->id_outlet = auth()->user()->id_outlet;
+        $simpan =    $member->save();
 
-
-
-
+        if($simpan){
+           return redirect('/member')->with('toast_success','Data Berhasil Ditambahkan');
+        }else{
+            return redirect('/member')->with('errors','Data Gagal Ditambahkan');
+        }
     }
 
     /**
@@ -90,16 +95,7 @@ class PaketController extends Controller
      */
     public function update(Request $request, $id)
     {
-        if($request->isMethod('post')){
-            $data = $request->all();
-
-
-
-
-         Paket::where(['id'=>$id])->update(['outlet_id'=>$data['outlet_id'],'jenis'=>$data['jenis'],'harga'=>$data['harga'],'nama_paket'=>$data['nama_paket']]);
-
-            return redirect()->back();
-        }
+        //
     }
 
     /**
@@ -110,15 +106,6 @@ class PaketController extends Controller
      */
     public function destroy($id)
     {
-        $paket = Paket::find($id);
-
-        $berhasil = $paket->delete();
-
-        if($berhasil){
-            return redirect('/paket')->with('toast_error', 'Data Berhasil dihapus!');
-        }else{
-            return redirect('/paket')->with('error', 'data gagal dihapus!');
-        }
-
+        //
     }
 }
