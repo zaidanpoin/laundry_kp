@@ -7,6 +7,6 @@ Pesanan anda telah selesai harap mengambil dioutlet kami.
 selesai
 @endcomponent
 
-Thanks,<br>
+Terimakasih,<br>
 {{ config('app.name') }}
 @endcomponent

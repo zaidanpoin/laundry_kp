@@ -56,6 +56,9 @@
                                     <p>Transaksi</p>
                                     <span class="caret"></span>
                                 </a>
+
+
+
                                 <div class="collapse" id="base">
                                     <ul class="nav nav-collapse">
                             <li>
@@ -73,9 +76,16 @@
 
                             <li>
                                 <a href="{{ route('data-transaksi') }}">
-                                    <span class="sub-item">Tranasksi</span>
+                                    <span class="sub-item">Transaksi</span>
                                 </a>
                             </li>
+
+
+                            <li>   <li>
+                                <a href="{{ route('history-transaksi',auth()->user()->id_outlet) }}">
+                                    <span class="sub-item">History Transaksi</span>
+                                </a>
+                            </li></li>
 
 
 
@@ -159,8 +169,8 @@
                         <ul class="nav nav-collapse">
 
                             <li>
-                                <a href="/laporanoutlet/">
-                                    <span class="sub-item"></span>
+                                <a href="/laporanoutlet/{{ auth()->user()->id_outlet }}">
+                                    <span class="sub-item">Laporan Outlet</span>
                                 </a>
                             </li>
 

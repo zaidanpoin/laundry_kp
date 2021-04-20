@@ -115,9 +115,9 @@
 
                                         @endphp
                                             @foreach($data as $p)
-                                            @if($p->status == 'diambil')
 
-                                            @else
+
+
                                             <td>{{$nomor++ }}  </td>
 
                                             <td style="text-transform: uppercase">{{ $p->kode_invoice }}</td>
@@ -159,7 +159,6 @@
 
 
 
-
                                             <td>
                                                 <a class="text-light" href="{{ route('detail-transaksi',$p->id) }}"><button class="btn btn-success"><i class="fa fa-eye" data-toggle="tooltip" title="Edit" ></i></button></a>
 
@@ -174,7 +173,7 @@
 
                                             </tr>
 
-                                            @endif
+
                                         @endforeach
 
 

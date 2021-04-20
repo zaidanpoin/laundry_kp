@@ -131,7 +131,7 @@
                                             <td>0{{ $p->tlp }}</td>
                                             <td> <a class="text-light" href="{{ route('admin-outlet',$p->id) }}"><button class="btn btn-success">Manage Akun</button></a></td>
                                             <td>
-                                                <a class="text-light" href="{{ route('edit-outlet',$p->id) }}"><button class="btn btn-warning"><i class="fa fa-pencil-alt" data-toggle="tooltip" title="Edit" ></i></button></a>
+                                                <a class="text-light" data-toggle="modal" data-target="#Modal2-{{ $p->id }}"><button class="btn btn-warning"><i class="fa fa-pencil-alt" data-toggle="tooltip" title="Edit" ></i></button></a>
                                                 <a class="text-light" href="{{ route('hapus-outlet',$p->id) }}"><button class="btn btn-danger"><i class="fa fa-trash-alt" data-toggle="tooltip" title="Hapus" ></i></button></a>
                                             </td>
 
@@ -150,6 +150,71 @@
             </div>
         </div>
     </div>
+    @foreach ($data as  $p)
+    <div class="modal fade" id="Modal2-{{ $p->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Edit Outlet</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+          <div class="modal-body">
+            <form action="{{ route('update-outlet',$p->id) }}" method="POST" >
+
+                {{ csrf_field() }}
+
+
+
+                        <label for="exampleInputPassword1">Nama Outlet</label>
+                        <input type="input" value="{{ $p->nama }}" class="form-control" id="exampleInputPassword1" name="nama" placeholder="Nama outlet">
+
+                        @if($errors->has('nama'))
+                        <div class="text-danger">
+                                {{ $errors->first('nama')}}
+                        </div>
+                        @endif
+
+
+
+
+
+                        <label for="exampleInputPassword1">alamat</label>
+                        <input type="input" class="form-control" id="exampleInputPassword1" value="{{ $p->alamat }}" name="alamat" placeholder="Alamat outlet">
+
+                        @if($errors->has('alamat'))
+                        <div class="text-danger">
+                                {{ $errors->first('alamat')}}
+                        </div>
+                        @endif
+
+
+
+
+                        <label for="exampleInputPassword1">Nomor</label>
+                        <input type="number" name="nomor" class="form-control" value="{{ $p->tlp }}" placeholder="nomor" autocomplete="off">
+                        @if($errors->has('nomor'))
+                                            <div class="text-danger">
+                                                    {{ $errors->first('nomor')}}
+                                            </div>
+                                    @endif
+
+
+
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<button type="submit" class="btn btn-primary">Save changes</button>
+</div>
+</form>
+                              </div>
+
+                          </div>
+                          </div>
+                      </div>
+    @endforeach
+
     <footer class="footer">
         <div class="container-fluid">
             <nav class="pull-left">

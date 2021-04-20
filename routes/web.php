@@ -54,11 +54,12 @@ Route::group(['middleware'=>['auth:user','cekLevel:admin,Owner,kasir']],function
     Route::get('/outlet','OutletController@index')->name('dataoutlet');
     Route::get('/tambahoutlet','OutletController@create')->name('tambah-outlet');
     Route::post('/store/outlet','OutletController@store')->name('store-outlet');
-    Route::post('/update/outlet/{id}','OutletController@update')->name('update-outlet');
+    Route::match(['get', 'post'], '/update-outlet/{id}','OutletController@update')->name('update-outlet');
     Route::get('/editoutlet/{id}','OutletController@edit')->name('edit-outlet');
     Route::get('/hapusoutlet/{id}','OutletController@destroy')->name('hapus-outlet');
     Route::get('/data-admin/{id}','OutletController@admin')->name('admin-outlet');
     Route::post('/store-admin/{id}','OutletController@adminstore')->name('store-akun');
+    Route::match(['get', 'post'], '/update-akun/{id}','OutletController@updateakun')->name('update-akun');
 
 
     // paket
@@ -90,7 +91,7 @@ Route::group(['middleware'=>['auth:user','cekLevel:admin,Owner,kasir']],function
     Route::get('/cetak-transaksi/{id}','TransaksiController@cetak')->name('cetak-invoice');
     Route::post('/store-detail/{id}','TransaksiController@storedetail')->name('store-detail');
     Route::get('/hapus-detail/{id}','TransaksiController@hapusdetail')->name('hapus-detail');
-
+    Route::get('/history-transaksi/{id}','TransaksiController@history')->name('history-transaksi');
 
 
     Route::match(['get', 'post'], '/update-detail/{id}','TransaksiController@updatedetail')->name('update-detail');

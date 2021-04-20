@@ -7,6 +7,6 @@ Pesanan Anda Sedang Di Proses Mohon Menunggu 1-3 Hari Jam Kerja
 Di Proses
 @endcomponent
 
-Thanks,<br>
+Terimakasih,<br>
 {{ config('app.name') }}
 @endcomponent

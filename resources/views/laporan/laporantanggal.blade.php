@@ -8,7 +8,7 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
 
-    <title>Hello, world!</title>
+    <title>Laporan Outlet</title>
   </head>
   <body>
   <center>Mamah Laundry</center>
@@ -18,21 +18,22 @@
                 <th>Nomor</th>
                 <th>Kode invoice</th>
                 <th>member</th>
-            
-              <th>Total</th>
+                <th>Total</th>
 
             </tr>
         </thead>
         <tbody>
+            @php
+                $nomor = 1;
+
+                @endphp
             @foreach($transaksi as $data)
 
 
           <tr>
-
-
+            <td>{{ $nomor++ }}</td>
             <td style="text-transform: uppercase">{{ $data->kode_invoice }}</td>
             <td>{{ $data->Member->name }}</td>
-            <td>{{ $data->status }}</td>
             <td>Rp.{{number_format($data->total)}}</td>
           </tr>
 @endforeach

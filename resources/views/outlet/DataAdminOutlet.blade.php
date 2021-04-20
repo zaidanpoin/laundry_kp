@@ -145,8 +145,10 @@
 
 
                                             <td>
-                                                <a class="text-light" href="{{ route('edit-outlet',$p->id) }}"><button class="btn btn-warning"><i class="fa fa-pencil-alt" data-toggle="tooltip" title="Edit" ></i></button></a>
-                                                <a class="text-light" href="{{ route('hapus-outlet',$p->id) }}"><button class="btn btn-danger"><i class="fa fa-trash-alt" data-toggle="tooltip" title="Hapus" ></i></button></a>
+                                                <a class="text-light" data-toggle="modal" data-target="#Modal2-{{ $p->id }}"><button class="btn btn-warning"><i class="fa fa-pencil-alt" data-toggle="tooltip" title="Edit" ></i></button></a>
+                                                <a class="text-light" href="{{ route('hapus-outlet',$p->id) }}"><button class="btn btn-danger remove-user"><i class="fa fa-trash-alt" data-toggle="tooltip" title="Hapus" ></i></button></a>
+
+
                                             </td>
 
 
@@ -164,6 +166,89 @@
             </div>
         </div>
     </div>
+
+
+    @foreach ($Outlet as  $p)
+    <div class="modal fade" id="Modal2-{{ $p->id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Update Akun</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+          </button>
+          </div>
+          <div class="modal-body">
+             <form action="/update-akun/{{ $p->id }}" method="POST" >
+
+                 {{ csrf_field() }}
+
+
+
+
+
+
+                     {{ csrf_field() }}
+
+
+
+                     <label for="exampleInputPassword1">Nama</label>
+                     <input type="input" class="form-control" id="exampleInputPassword1" value="{{ $p->name }}" name="name" placeholder="Nama ">
+                     <br>
+                     @if($errors->has('nama'))
+                     <div class="text-danger">
+                             {{ $errors->first('nama')}}
+                     </div>
+                     @endif
+
+
+                     <label for="exampleInputPassword1">Email</label>
+                     <input type="email" class="form-control" id="exampleInputPassword1" value="{{ $p->email }}" name="email" placeholder="Email ">
+                     <br>
+                     @if($errors->has('email'))
+                     <div class="text-danger">
+                             {{ $errors->first('email')}}
+                     </div>
+                     @endif
+
+
+
+
+
+                     <label for="exampleInputPassword1">Level</label>
+                     <select type="input" class="form-control" id="exampleInputPassword1" name="level" placeholder="Level">
+                        <option value="Owner" @if($p->level == 'Owner') selected @endif>Owner</option>
+                        <option value="admin" @if($p->level == 'admin') selected @endif>Admin</option>
+                        <option value="kasir" @if($p->level == 'kasir') selected @endif>Kasir</option>
+
+
+
+                     </select>
+
+                     <br>
+
+                     <label for="exampleInputPassword1">Password</label>
+                     <input type="input" class="form-control" id="exampleInputPassword1"  name="password" placeholder="Password ">
+                     <br>
+                     @if($errors->has('password'))
+                     <div class="text-danger">
+                             {{ $errors->first('password')}}
+                     </div>
+                     @endif
+</div>
+<div class="modal-footer">
+ <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+ <button type="submit" class="btn btn-primary">Save changes</button>
+</div>
+</form>
+                              </div>
+
+                          </div>
+                          </div>
+                      </div>
+    @endforeach
+
+
     <footer class="footer">
         <div class="container-fluid">
             <nav class="pull-left">
@@ -179,6 +264,9 @@
 
 <!-- End Custom template -->
 </div>
+
+
+
 	<!--   Core JS Files   -->
 	@include('template2.script')
 </body>

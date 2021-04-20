@@ -260,6 +260,8 @@
 
 <!-- End Custom template -->
 </div>
+
+
 	<!--   Core JS Files   -->
 	@include('template2.script')
 </body>

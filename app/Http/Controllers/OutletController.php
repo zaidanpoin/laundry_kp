@@ -134,30 +134,37 @@ class OutletController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $messages = [
-            'required' => 'Data wajib diisi !!!',
-
-        ];
-        $this->validate($request,[
-
-            'nama' =>'required',
-            'alamat' =>'required',
-            'nomor' => 'required',
+        if($request->isMethod('post')){
+            $data = $request->all();
 
 
-        ],$messages);
 
-        $data = Outlet::find($id);
-        $data->nama = $request->nama;
-        $data->alamat = $request->alamat;
-        $data->tlp = $request->nomor;
-        $success =  $data->save();
 
-        if($success){
-            return redirect('/outlet')->with('success', 'Data Berhasil diupdate!');
-        }else{
-            return redirect('/outlet')->with('error', 'data gagal di update!');
-        };
+         Outlet::where(['id'=>$id])->update(['nama'=>$data['nama'],'alamat'=>$data['alamat'],'tlp'=>$data['nomor']]);
+
+            return redirect()->back();
+        }
+    }
+
+    public function updateakun(Request $request, $id){
+
+        if($request->isMethod('post')){
+            $data = $request->all();
+
+            if(!empty($request->password )){
+
+                User::where(['id'=>$id])->update(['name'=>$data['name'],'email'=>$data['email'],'level'=>$data['level'],
+                'password'=>bcrypt($data['password'])]);
+            }else{
+                User::where(['id'=>$id])->update(['name'=>$data['name'],'email'=>$data['email'],'level'=>$data['level']]);
+            }
+
+
+
+            return redirect()->back();
+        }
+
+
     }
 
     /**

@@ -109,39 +109,6 @@
 
                                                         <br>
 
-                                                            <label for="exampleInputPassword1">Member</label>
-                                                            <select class="form-control" id="member" name="member">
-                                                                :@foreach ($Member as $p)
-
-
-                                                                @if ($p->status == null)
-                                                                <option value="{{ $p->id }}">{{ $p->name}}</option>
-
-                                                                @endif
-
-                                                                @endforeach
-                                                            </select>
-
-                                                            @if($errors->has('member'))
-                                                            <div class="text-danger">
-                                                                    {{ $errors->first('member')}}
-                                                            </div>
-                                                            @endif
-
-                                                    <label for="exampleInputPassword1">Status Bayar</label>
-                                                <select class="form-control" id="status bayar" name="status bayar">
-
-                                                                <option value="Belum dibayar">Belum dibayar</option>
-                                                                <option value="Sudah Bayar">Sudah Bayar</option>
-
-                                                            </select>
-
-                                                            @if($errors->has('status_bayar'))
-                                                            <div class="text-danger">
-                                                                    {{ $errors->first('status_bayar')}}
-                                                            </div>
-                                                            @endif
-
 
                         </div>
                         <div class="modal-footer">
@@ -284,36 +251,36 @@
                                                 </li>
 
                                                 <li class="feed-item feed-item-success">
-                                                    <time class="date" datetime="9-24">Sep 24</time>
+                                                    <time class="date" datetime="9-24">{{ $data->tgl_proses }}</time>
                                                     <span class="text">Pesanan Anda <a href="#">"Sedang Diproses "</a></span>
                                                 </li>
 
-                                                <li class="feed-item feed-item-danger">
-                                                    <time class="date" datetime="9-18">Sep 18</time>
-                                                    <span class="text">Pesanan Anda <a href="#">"Menunggu Pick Up Customer"</a></span>
+                                                <li class="feed-item feed-item-info">
+                                                    <time class="date" datetime="9-23">{{ $data->tgl_proses }}</time>
+                                                    <span class="text">Pesanan Anda <a href="single-group.php">"Sedang Di Cuci Estimasi 1-2 hari jam kerja"</a></span>
                                                 </li>
 
 
 
 
                                                 <li class="feed-item feed-item-warning">
-                                                    <time class="date" datetime="9-21">Sep 21</time>
+                                                    <time class="date" datetime="9-21">{{ $data->tgl_selesai }}</time>
                                                     <span class="text">Pesanan Anda <a href="#">"Telah selesai di proses"</a></span>
                                                 </li>
 
                                                 <li class="feed-item feed-item-danger">
-                                                    <time class="date" datetime="9-18">Sep 18</time>
+                                                    <time class="date" datetime="9-18">{{ $data->tgl_selesai }}</time>
                                                     <span class="text">Pesanan Anda <a href="#">"Menunggu Pick Up Customer"</a></span>
                                                 </li>
 
 
                                                 <li class="feed-item feed-item-success">
-                                                    <time class="date" datetime="9-18">Sep 18</time>
+                                                    <time class="date" datetime="9-18">{{ $data->tgl_diambil }}</time>
                                                     <span class="text">Pesanan Anda <a href="#">"Telah Diambil"</a></span>
                                                 </li>
 
                                                 <li class="feed-item feed-item-warning">
-                                                    <time class="date" datetime="9-18">Sep 18</time>
+                                                    <time class="date" datetime="9-18">{{ $data->tgl_diambil }}</time>
                                                     <span class="text">Pesanan Anda <a href="#">"selesai"</a></span>
                                                 </li>
 
@@ -334,11 +301,11 @@
                                                 <thead>
                                                     <tr>
                                                         <th>Nomor</th>
-                                                        <th>Kode invoice</th>
+                                                        <th>Nama Paket</th>
                                                         <th>qty</th>
-                                                        <th>outlet</th>
-                                                        <th>detail</th>
-                                                        @if ($data->proses)
+                                                        <th>Keterangan</th>
+                                                        <th>Total</th>
+                                                        @if ($data->status == 'baru')
                                                         <th >Action</th>
                                                         @endif
                                                     </tr>
@@ -357,12 +324,13 @@
                                                             <td>{{ $p->keterengan }}</td>
                                                             <td>{{ $p->subtotal }}</td>
 
-                                                            @if ($data->proses)
-                                                            @else
+                                                            @if ($data->status == 'baru')
+
                                                         <td>
                                                             <a class="text-light btn btn-warning" data-toggle="modal" data-target="#Modal2-{{ $p->id }}" href="">Edit</a>
                                                             <a class="text-light" href="{{ route('hapus-detail',$p->id) }}"><button class="btn btn-danger"><i class="fa fa-trash-alt" data-toggle="tooltip" title="Edit" ></i></button></a>
                                                         </td>
+                                                        @else
                                                         @endif
 
 

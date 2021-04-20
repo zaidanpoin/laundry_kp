@@ -30,7 +30,7 @@ class TransaksiController extends Controller
         $detail = Detailtransaksi::all();
         $haraga = Detailtransaksi::where('transaksi_id',60);
         $dt     = Carbon::now();
-        $Member = Member::all();
+        $Member = Member::where('id_outlet',auth()->user()->id_outlet)->get();
         $paket = Paket::all();
 
         $outlet = Outlet::all();
@@ -82,10 +82,10 @@ class TransaksiController extends Controller
         // if(!empty($cek_pesanan)){
 
         // }
-
+        $dt = Carbon::now();
         $transaksi = new Transaksi;
         $transaksi->outlet_id = auth()->user()->id_outlet;
-        $transaksi->kode_invoice = 'INV' ."00". $kode;
+        $transaksi->kode_invoice = 'INV' ."00".$dt->year. $kode;
         $transaksi->member_id = $request->member;
         $transaksi->tgl =  Carbon::now();
         $transaksi->tgl_bayar =  Carbon::now();
@@ -132,9 +132,21 @@ class TransaksiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function history($id)
     {
-        //
+        $data = Transaksi::where('outlet_id',auth()->user()->id_outlet);
+
+        $detail = Detailtransaksi::all();
+        $haraga = Detailtransaksi::where('transaksi_id',60);
+        $dt     = Carbon::now();
+        $Member = Member::where('id_outlet',auth()->user()->id_outlet)->get();
+        $paket = Paket::all();
+
+        $outlet = Outlet::all();
+
+        $total = $haraga->sum('subtotal');
+
+        return view('transaksi.datatransaksi',['data'=>$data,'detail'=>$detail],compact('total','outlet','Member','dt','paket'));
     }
 
     /**
@@ -152,7 +164,7 @@ class TransaksiController extends Controller
     public function detail($id)
     {
 
-        $data = transaksi::find($id);
+        $data = transaksi::findOrFail($id);
         $haraga = Detailtransaksi::where('transaksi_id',$id);
         $paket = paket::all();
         $Member = Member::all();
@@ -289,6 +301,7 @@ class TransaksiController extends Controller
         $data = transaksi::find($id);
         $data->total = $total;
         $data->status = "diambil";
+        $data->tgl_diambil = Carbon::now();
         $success = $data->update();
 
         $member =  Member::find($data->member_id);
@@ -299,9 +312,9 @@ class TransaksiController extends Controller
 
 
         if($success){
-            return redirect('transaksi')->with('success', 'Data Status Telah Diubah!');
+            return redirect('history-transaksi')->with('success', 'Data Status Telah Diubah!');
         }else{
-            return redirect('transaksi')->with('errors', 'data gagal!');
+            return redirect('history-transaksi')->with('errors', 'data gagal!');
         }
 
     }

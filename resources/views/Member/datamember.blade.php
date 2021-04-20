@@ -30,7 +30,7 @@
                     <div class="card">
                         <div class="card-header">
                             <div class="d-flex align-items-center">
-                                <h4 class="card-title">Tambah Data</h4>
+                                <h4 class="card-title">Data Member</h4>
                                 <button class="btn btn-primary btn-round ml-auto" data-toggle="modal" data-target="#exampleModal">
                                     <i class="fa fa-plus"></i>
                                     Add Row
@@ -119,7 +119,7 @@
                                             <th>Email</th>
                                             <th>Alamat</th>
                                             <th>Jk</th>
-                                            <th></th>
+                                            <th>Aksi</th>
 
                                         </tr>
                                     </thead>
@@ -129,9 +129,20 @@
                                         <tr>
                                             <td>{{ $p->name }}</td>
                                             <td>{{ $p->email }}</td>
+                                            <td>{{ $p->alamat }}</td>
+                                            <td>{{ $p->jk }}</td>
+                                            <td>
+
+                                                <a class="text-light" href=""><button class="btn btn-warning"><i class="fa fa-pencil-alt" data-toggle="tooltip" title="Edit" ></i></button></a>
+                                                <a class="text-light" href="{{ route('hapus-transaksi',$p->id) }}"><button class="btn btn-danger"><i class="fa fa-trash-alt" data-toggle="tooltip" title="Edit" ></i></button></a>
+                                            </td>
                                         </tr>
                                         @empty
-
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
                                         @endforelse
 
 

@@ -16,12 +16,12 @@ class BerandaController extends Controller
         $kmren = date(Carbon::now());
 
 
-         $member = Member::whereBetween('tgl',[$dt,$kmren])->count();
+         $member = Member::where('id_outlet',auth()->user()->id_outlet)->whereBetween('tgl',[$dt,$kmren])->count();
 
-         $data = Member::all()->count();
-         $transaksi = Transaksi::all()->count();
+         $data = Member::where('id_outlet',auth()->user()->id_outlet)->count();
+         $transaksi = Transaksi::where('outlet_id',auth()->user()->id_outlet)->count();
 
-         $crt =
+
 
          $daily = Transaksi::where('outlet_id',auth()->user()->id_outlet);
             $hitungdaily = $daily->sum('total');
